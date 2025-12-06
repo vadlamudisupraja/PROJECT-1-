@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include<stdlib.h>
+#include <string.h>
+#define STUDENT_FILE "students.txt"
+#define CREDENTIAL_FILE "credentials.txt"
+
+
+struct Student { int roll; char name[50]; float marks ; };
+char currentRole[10];
+char currentUser[50];
+/* Function Declarations */
+void mainMenu();
+void adminMenu();
+void userMenu();
+
+int loginSystem();
+void addStudent();
+void displayStudents();
+void searchStudent();
+void updateStudent();
+void deleteStudent();
+
+int main() {
+if ( loginSystem() ) {
+mainMenu();
+}else{
+printf("\nLogin failed. Exiting...\n");
+
+}
+return 0;
+}
+
+int loginSystem() {
+char username[20], password[20];
+char fileUser[20], filePass[20], fileRole[10];
+printf("===========Login Search ============\n");
+printf("Username: ");
+scanf("%s",username);
+printf("Password: ");
+scanf("%s",password);
+FILE *fp = fopen(CREDENTIAL_FILE,"r");
+if (!fp) {
+    printf("Error: credentials.txt not found!\n");
+    return 0;
+}
+while (fscanf(fp, "%s %s %s",fileUser, filePass, fileRole) == 3) {
+    if(strcmp(username, fileUser) == 0 && strcmp(password, filePass) == 0)
+    {
+        strcpy(currentRole, fileRole);
+        strcpy(currentUser, fileUser);
+        fclose(fp);return 1;
+    }
+}
+fclose(fp);
+return 0;
+}
+
+void mainMenu() {
+    if (strcmp(currentRole, "ADMIN") == 0) 
+        adminMenu();
+    //else if (strcmp(currentRole, "STAFF") == 0)
+        //staffMenu();
+    //else if (strcmp(currentRole, "GUEST") == 0)
+       // guestMenu();
+    //else
+       // printf("Unknown role!\n");
+}
+
+
+void adminMenu () {
+    int choice;
+    
+    do{
+        printf("\n=====ADMIN MENU=====\n");
+        printf("1.Add New Students\n");
+        printf("2.Display All Records\n");
+        printf("3.Search Record\n"); 
+        printf("4.AUpdate student Details\n");
+        printf("5.Delete student Record\n");
+        printf("6.Logout\n");
+        printf("Enter Choice: ");
+        scanf("%d", &choice);
+        /*switch(choice) {
+            case 1: addStudent(); break;
+            case 2: displayStudents(); break;
+            case 3: searchStudent(); break;
+            case 4: updateStudent(); break;
+            case 5: deleteStudent(); break;
+            case 6: printf("Logging out...\n");
+            return;
+            default: printf("Invalid choice!\n");
+        }*/
+        }while(1);
+    }
